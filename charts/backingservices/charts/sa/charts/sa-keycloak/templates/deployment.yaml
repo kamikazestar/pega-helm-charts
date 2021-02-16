@@ -33,18 +33,48 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: "KEYCLOAK_USER"
+              valueFrom:
+                secretKeyRef:
+                  key: keycloakUser
+                  name: {{ .Release.Name }}-auth
+            - name: "KEYCLOAK_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  key: keycloakPassword
+                  name: {{ .Release.Name }}-auth
+            {{- if .Values.postgresql.enabled }}
+            - name: DB_VENDOR
+              value: postgres
+            - name: DB_ADDR
+              #value: {{ template "common.names.fullname" . }}.{{ .Release.Namespace }}:{{ template "postgresql" . }}
+              value: {{ include "sa-keycloak.postgresql.fullname" . }}
+            - name: DB_PORT
+              value: {{ .Values.postgresql.service.port | quote }}
+            - name: DB_DATABASE
+              value: {{ .Values.postgresql.Database | quote }}
+            - name: DB_USER
+              value: {{ .Values.postgresql.Username | quote }}
+            - name: DB_PASSWORD
+              value: {{ .Values.postgresql.Password | quote }}
+            {{- end }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /auth
               port: http
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
-              path: /
+              path: /auth/realms/master
               port: http
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
