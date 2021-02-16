@@ -60,3 +60,11 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create a default fully qualified app name for the postgres requirement.
+*/}}
+{{- define "sa-keycloak.postgresql.fullname" -}}
+{{- $postgresContext := dict "Values" .Values.postgresql "Release" .Release "Chart" (dict "Name" "postgresql") -}}
+{{ include "postgresql.fullname" $postgresContext }}
+{{- end }}
