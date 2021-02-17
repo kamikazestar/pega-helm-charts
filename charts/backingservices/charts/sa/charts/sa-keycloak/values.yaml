@@ -88,11 +88,12 @@ postgresql:
   # Default: false
   enebled: false
   # Database to create
-  Databese: keycloak
+  postgresqlDatabase: keycloak
   # Postgres username
-  Username: keycloak
+  postgresqlUsername: keycloak
   # Postgres password for user
-  Password: keycloak
+  postgresqlPassword: keycloak
   # Postgres port
   service:
     port: 5432
+  fullnameOverride: sa-keycloak-postgresql
