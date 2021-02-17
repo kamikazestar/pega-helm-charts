@@ -48,16 +48,15 @@ spec:
             - name: DB_VENDOR
               value: postgres
             - name: DB_ADDR
-              #value: {{ template "common.names.fullname" . }}.{{ .Release.Namespace }}:{{ template "postgresql" . }}
-              value: {{ include "sa-keycloak.postgresql.fullname" . }}
+              value: "sa-keycloak-postgresql.default.svc.cluster.local"
             - name: DB_PORT
               value: {{ .Values.postgresql.service.port | quote }}
             - name: DB_DATABASE
-              value: {{ .Values.postgresql.Database | quote }}
+              value: {{ .Values.postgresql.postgresqlDatabase | quote }}
             - name: DB_USER
-              value: {{ .Values.postgresql.Username | quote }}
+              value: {{ .Values.postgresql.postgresqlUsername | quote }}
             - name: DB_PASSWORD
-              value: {{ .Values.postgresql.Password | quote }}
+              value: {{ .Values.postgresql.postgresqlPassword | quote }}
             {{- end }}
           ports:
             - name: http
