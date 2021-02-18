@@ -1,6 +1,6 @@
 apiVersion: v2
 name: sa-keycloak
-description: Service Autenthicator Helm chart for Keycloak
+description: Service Autenthicator helm chart for Keycloak
 # Type of the Helm chart
 type: application
 # Helm chart version

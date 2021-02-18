@@ -62,9 +62,8 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Create a default fully qualified app name for the postgres requirement.
+Create Postgres service name
 */}}
-{{- define "sa-keycloak.postgresql.fullname" -}}
-{{- $postgresContext := dict "Values" .Values.postgresql "Release" .Release "Chart" (dict "Name" "postgresql") -}}
-{{ include "postgresql.fullname" $postgresContext }}
-{{- end }}
+{{- define "postgresql-svc-name" -}}
+{{-  $postgresSrvName := printf "%s.svc.cluster.local" .Values.postgresql.fullnameOverrid -}}
+{{- end}}

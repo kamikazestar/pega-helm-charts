@@ -86,7 +86,7 @@ keycloak:
 postgresql:
   # If true, enable Postgres dependency
   # Default: false
-  enebled: false
+  enabled: false
   # Database to create
   postgresqlDatabase: keycloak
   # Postgres username
